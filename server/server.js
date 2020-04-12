@@ -1,32 +1,24 @@
 const express = require('express');
-require('dotenv').config();
 
 const app = express();
 const bodyParser = require('body-parser');
+// App Set //
+const PORT = process.env.PORT || 5000;
+
 
 // Route includes
-// const userRouter = require('./routes/user.router');
-// const detailsRouter = require('./routes/details.router');
-// const coursesRouter = require('./routes/courses.router');
-// const teesRouter = require('./routes/tees.router');
-// const roundRouter = require('./routes/round.router');
+const winesRouter = require('./routes/wines.router');
 
 // Body parser middleware
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-/* Routes */
-// app.use('/api/user', userRouter);
-// app.use('/api/details', detailsRouter);
-// app.use('/api/courses', coursesRouter);
-// app.use('/api/tees', teesRouter);
-// app.use('/api/round', roundRouter);
-
 // Serve static files
 app.use(express.static('build'));
 
-// App Set //
-const PORT = process.env.PORT || 5000;
+/* Routes */
+app.use('/wines', winesRouter);
+
 
 /** Listen * */
 app.listen(PORT, () => {
