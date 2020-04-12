@@ -1,13 +1,56 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import App from './App';
+import App from './App/App';
 import * as serviceWorker from './serviceWorker';
+import { createStore, combineReducers, applyMiddleware } from 'redux';
+import axios from 'axios';
+// Provider allows us to use redux within our react app
+import { Provider } from 'react-redux';
+import logger from 'redux-logger';
+// Import saga middleware
+import createSagaMiddleware from 'redux-saga';
+import {takeEvery, put} from 'redux-saga/effects';
 
-ReactDOM.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
+function* rootSaga() {
+  yield takeEvery('GET_WINES', getWinesSaga);
+}
+
+function* getWinesSaga() {
+  try {
+      console.log('in getWinesSaga ************');
+      
+      const getResponse = yield axios.get('/wines');
+      // dispatches an action SET_MOVIES with our payload as the response from the DB query
+      yield put({type: 'SET_WINES', payload: getResponse.data})
+  }
+  catch (error){
+      console.log('error in getWinesSaga...... error:', error);
+  }
+}
+
+const sagaMiddleware = createSagaMiddleware();
+
+const winesReducer = (state = [], action) => {
+  switch (action.type) {
+      case 'SET_WINES':
+          return action.payload;
+      default:
+          return state;
+  }
+}
+
+const storeInstance = createStore(
+  combineReducers({
+    winesReducer,
+  }),
+  // Add sagaMiddleware to our store
+  applyMiddleware(sagaMiddleware, logger),
+);
+
+sagaMiddleware.run(rootSaga);
+
+ReactDOM.render(<Provider store={storeInstance}><App /></Provider>,
   document.getElementById('root')
 );
 
