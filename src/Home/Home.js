@@ -17,7 +17,7 @@ class Home extends Component {
             <div>
                 {this.props.wines.map(wine => {
                     return (
-                        <Card key={wine.id}>
+                        <Card className="wine-card" key={wine.id}>
                             <CardContent>
                             <Typography>
                                 <h2>{wine.brand}</h2>
