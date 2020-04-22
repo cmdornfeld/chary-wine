@@ -14,6 +14,7 @@ import {takeEvery, put} from 'redux-saga/effects';
 
 function* rootSaga() {
   yield takeEvery('GET_WINES', getWinesSaga);
+  yield takeEvery('GET_WINE_DETAILS', getWineDetails);
 }
 
 function* getWinesSaga() {
@@ -29,6 +30,18 @@ function* getWinesSaga() {
   }
 }
 
+function* getWineDetails(action) {
+  try{
+      console.log('in getDetailsSaga ************');
+
+      const getResponse = yield axios.get(`/wines/details/${action.payload}`);
+      yield put({type: 'SET_WINE_DETAILS', payload: getResponse.data})
+  }
+  catch (error){
+      console.log(error); 
+  }
+}
+
 const sagaMiddleware = createSagaMiddleware();
 
 const winesReducer = (state = [], action) => {
@@ -40,9 +53,19 @@ const winesReducer = (state = [], action) => {
   }
 }
 
+const detailsReducer = (state = [], action) => {
+  switch (action.type) {
+      case 'SET_WINE_DETAILS':
+          return action.payload;
+      default:
+          return state;
+  }
+}
+
 const storeInstance = createStore(
   combineReducers({
     winesReducer,
+    detailsReducer
   }),
   // Add sagaMiddleware to our store
   applyMiddleware(sagaMiddleware, logger),
