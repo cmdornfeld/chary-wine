@@ -1,11 +1,17 @@
 body {
   background-image: url("../wine_field.jpg");
-  background-repeat: no-repeat;
   background-attachment: fixed;
   background-size: cover;
 }
 
 .wine-card {
-  width: 50%;
+  width: 20vw;
   margin: 0 auto;
+  margin-top: 2vw;
+}
+
+.wine-card-container {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
 }
