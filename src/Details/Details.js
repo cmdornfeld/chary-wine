@@ -16,13 +16,21 @@ class Details extends Component {
         return (
             <div>
                 <Header />
-                <div className="wine-card-container">
-                    <Card>
-                        <CardContent>
-                            <img src={this.props.details.image} alt={this.props.details.brand} width="400" /> 
-                        </CardContent>
-                    </Card>
-                </div>          
+                <Card>
+                    <CardContent>
+                        <img src={this.props.details.image} alt={this.props.details.brand} width="400" />
+                        <br/>
+                        <h2>{this.props.details.brand} {this.props.details.name}</h2>
+                        <h2>{this.props.details.location}</h2>
+                        <br/>
+                        <Typography component="p">
+                            {this.props.details.description}
+                        </Typography>
+                        <h3>Chad's Rating: {Number(this.props.details.c_rating).toFixed(2)}</h3>
+                        <h3>Mary's Rating: {Number(this.props.details.m_rating).toFixed(2)}</h3>
+                        <h3>${Number(this.props.details.price).toFixed(2)}</h3>
+                    </CardContent>
+                </Card>        
             </div>
         )
     }

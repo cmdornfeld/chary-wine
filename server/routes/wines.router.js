@@ -7,7 +7,7 @@ router.get('/', (req, res) => {
   console.log('GET Wines route *************');
   
     const queryText = `SELECT "id", "brand", "name", "image", "description", "location", "type", "variety", 
-                      "C rating", "M rating", AVG(("C rating" + "M rating") / 2) as "totalRating", "price"
+                      "C rating" as c_Rating, "M rating" as m_Rating, AVG(("C rating" + "M rating") / 2) as "totalRating", "price"
                       FROM "wines"
                       GROUP BY "id"
                       ORDER BY "id";`;
@@ -27,8 +27,8 @@ router.get('/', (req, res) => {
     
     const id = req.params.id;
 
-    const queryText = `SELECT "id", "brand", "name", "image", "description", "location", "type", "variety", "C rating" as cRating, 
-                      "M rating" as mRating, AVG(("C rating" + "M rating") / 2) as "totalRating", "price"
+    const queryText = `SELECT "id", "brand", "name", "image", "description", "location", "type", "variety", "C rating" as c_Rating, 
+                      "M rating" as m_Rating, AVG(("C rating" + "M rating") / 2) as "totalRating", "price"
                       FROM "wines"
                       WHERE "id" = $1
                       GROUP BY "id";`;
